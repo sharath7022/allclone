@@ -1,0 +1,83 @@
+# guess_game.rb - A simple number guessing game in Ruby.
+
+def play_guessing_game
+  puts "--------------------------------------------------"
+  puts "Welcome to the Ultimate Guessing Game!"
+  puts "--------------------------------------------------"
+
+  # Define the range for the secret number
+  min_num = 1
+  max_num = 100
+
+  # Generate a random secret number
+  secret_number = rand(min_num..max_num) # `rand(range)` generates a random number within the given range
+
+  # Define the maximum number of attempts the player gets
+  max_attempts = 7
+  attempts_taken = 0
+  guess = nil # Initialize guess variable
+
+  puts "I'm thinking of a number between #{min_num} and #{max_num}."
+  puts "You have #{max_attempts} attempts to guess it."
+  puts "\nLet the guessing begin!"
+
+  # Game loop: Continues until the player guesses correctly or runs out of attempts.
+  loop do
+    attempts_taken += 1 # Increment attempt counter
+
+    # Check if the player has run out of attempts
+    if attempts_taken > max_attempts
+      puts "\n--- Game Over! ---"
+      puts "You ran out of attempts. The secret number was: #{secret_number}."
+      puts "Better luck next time!"
+      puts "--------------------------------------------------"
+      break # Exit the loop
+    end
+
+    print "Attempt #{attempts_taken}/#{max_attempts}: Enter your guess (or 'quit' to exit): "
+    
+    # Get user input and remove leading/trailing whitespace
+    input = gets.chomp
+
+    # Check if the user wants to quit
+    if input.downcase == 'quit'
+      puts "\nExiting game. Thanks for playing!"
+      exit # Exit the program
+    end
+
+    # Attempt to convert input to an integer
+    guess = input.to_i # `to_i` returns 0 if input is not a valid number (e.g., "abc".to_i is 0)
+
+    # Basic input validation: Check if it's a number and within range
+    if guess == 0 && input != '0' # Check if it's genuinely '0' or a non-number
+      puts "Invalid input. Please enter a whole number."
+      attempts_taken -= 1 # Don't count this as a valid attempt
+      next # Skip to the next iteration
+    end
+
+    if guess < min_num || guess > max_num
+      puts "Oops! Please guess a number between #{min_num} and #{max_num}."
+      attempts_taken -= 1 # Don't count this as a valid attempt
+      next # Skip to the next iteration
+    end
+
+    # Provide hints
+    if guess < secret_number
+      puts "Too low! Try a higher number."
+    elsif guess > secret_number
+      puts "Too high! Aim a little lower."
+    else
+      # Correct guess!
+      puts "\n🎉 Congratulations! You guessed the number #{secret_number} correctly!"
+      puts "It took you #{attempts_taken} attempts."
+      break # Exit the loop as the game is won
+    end
+  end
+
+  # Ask to play again (optional, for brevity will not make recursive call)
+  puts "Thanks for playing!"
+end
+
+# Start the game
+play_guessing_game
+
