@@ -1,0 +1,68 @@
+// main.rs - A simple command-line number guessing game in Rust.
+
+// Import necessary modules for random number generation and input/output.
+use rand::Rng; // For `thread_rng().gen_range()`
+use std::io;   // For `stdin().read_line()` and `stdout().flush()`
+
+/// Main function: The entry point of the guessing game.
+fn main() {
+    println!("--- Guess the Number! ---");
+    println!("I'm thinking of a number between 1 and 100.");
+
+    // Generate a random secret number between 1 and 100 (inclusive).
+    let secret_number = rand::thread_rng().gen_range(1..=100);
+
+    // Define the maximum number of attempts the player gets.
+    const MAX_ATTEMPTS: u32 = 7;
+    let mut attempts = 0; // Keep track of attempts taken
+
+    // Game loop: Continues until the player guesses correctly or runs out of attempts.
+    loop {
+        attempts += 1; // Increment attempt count for each loop iteration.
+
+        // Check if the player has run out of attempts.
+        if attempts > MAX_ATTEMPTS {
+            println!("\n--- Game Over! ---");
+            println!("You ran out of attempts. The secret number was: {}.", secret_number);
+            break; // Exit the game loop.
+        }
+
+        // Prompt the user for their guess.
+        print!("Attempt {}/{}: Please enter your guess: ", attempts, MAX_ATTEMPTS);
+        // Ensure the prompt is displayed immediately to the console.
+        io::stdout().flush().expect("Failed to flush stdout");
+
+        // Create a mutable string to store the user's input.
+        let mut guess = String::new();
+
+        // Read the line from standard input. Handle potential errors.
+        io::stdin().read_line(&mut guess)
+            .expect("Failed to read line");
+
+        // Trim whitespace and attempt to parse the input into a 32-bit integer.
+        // Use a 'match' statement to handle both successful parsing (Ok) and errors (Err).
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num, // If successful, use the parsed number.
+            Err(_) => {
+                // If parsing fails (e.g., non-numeric input), print an error and continue to next loop iteration.
+                println!("Invalid input. Please enter a whole number.");
+                continue; // Skip the rest of the current loop iteration.
+            }
+        };
+
+        // Provide feedback based on the guess.
+        if guess < secret_number {
+            println!("Too low! Try again.");
+        } else if guess > secret_number {
+            println!("Too high! Try again.");
+        } else {
+            // Player guessed correctly!
+            println!("\n🎉 Congratulations! You guessed the number {} correctly!", secret_number);
+            println!("It took you {} attempts.", attempts);
+            break; // Exit the game loop as the player won.
+        }
+    }
+
+    println!("Thanks for playing!");
+}
+
