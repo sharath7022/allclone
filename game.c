@@ -1,4 +1,118 @@
-#include <stdio.h>   // Required for input/output functions like printf, scanf
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+// Constants for the game board
+#define ROWS 3
+#define COLS 3
+#define EMPTY ' '
+#define PLAYER_X 'X'
+#define PLAYER_O 'O'
+
+// Function to initialize the game board
+void initializeBoard(char board[ROWS][COLS]) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            board[i][j] = EMPTY;
+        }
+    }
+}
+
+// Function to print the game board
+void printBoard(const char board[ROWS][COLS]) {
+    printf("-------------\n");
+    for (int i = 0; i < ROWS; i++) {
+        printf("| %c | %c | %c |\n", board[i][0], board[i][1], board[i][2]);
+        printf("-------------\n");
+    }
+}
+
+// Function to check if a move is valid
+int isValidMove(const char board[ROWS][COLS], int row, int col) {
+    return (row >= 0 && row < ROWS && col >= 0 && col < COLS && board[row][col] == EMPTY);
+}
+
+// Function to make a move
+void makeMove(char board[ROWS][COLS], int row, int col, char player) {
+    board[row][col] = player;
+}
+
+// Function to check if a player has won
+char checkWin(const char board[ROWS][COLS]) {
+    // Check rows
+    for (int i = 0; i < ROWS; i++) {
+        if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0] != EMPTY) {
+            return board[i][0];
+        }
+    }
+    // Check columns
+    for (int j = 0; j < COLS; j++) {
+        if (board[0][j] == board[1][j] && board[1][j] == board[2][j] && board[0][j] != EMPTY) {
+            return board[0][j];
+        }
+    }
+    // Check diagonals
+    if (board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != EMPTY) {
+        return board[0][0];
+    }
+    if (board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != EMPTY) {
+        return board[0][2];
+    }
+    return EMPTY; // No winner
+}
+
+// Function to check if the board is full
+int isBoardFull(const char board[ROWS][COLS]) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (board[i][j] == EMPTY) {
+                return 0; // Board is not full
+            }
+        }
+    }
+    return 1; // Board is full
+}
+
+int main() {
+    char board[ROWS][COLS];
+    char currentPlayer = PLAYER_X;
+    int row, col;
+    char winner = EMPTY;
+
+    initializeBoard(board);
+
+    printf("Welcome to Tic-Tac-Toe!\n");
+
+    while (winner == EMPTY && !isBoardFull(board)) {
+        printBoard(board);
+        printf("Player %c's turn. Enter row (0-2) and column (0-2): ", currentPlayer);
+        if (scanf("%d %d", &row, &col) != 2) {
+            printf("Invalid input. Please enter two numbers.\n");
+            while (getchar() != '\n'); // Clear input buffer
+            continue;
+        }
+
+        if (isValidMove(board, row, col)) {
+            makeMove(board, row, col, currentPlayer);
+            winner = checkWin(board);
+            if (winner == EMPTY) {
+                currentPlayer = (currentPlayer == PLAYER_X) ? PLAYER_O : PLAYER_X;
+            }
+        } else {
+            printf("Invalid move. Try again.\n");
+        }
+    }
+
+    printBoard(board);
+
+    if (winner != EMPTY) {
+        printf("Player %c wins!\n", winner);
+    } else {
+        printf("It's a draw!\n");
+    }
+
+    return 0;
+}#include <stdio.h>   // Required for input/output functions like printf, scanf
 #include <stdlib.h>  // Required for rand(), srand(), and exit()
 #include <time.h>    // Required for time() to seed the random number generator
 
