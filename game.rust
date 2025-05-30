@@ -1,4 +1,287 @@
-// main.rs - A simple command-line number guessing game in Rust.
+
+use std::io;
+use std::cmp::Ordering;
+use rand::Rng;
+
+fn main() {
+    println!("Guess the number!");
+
+    let secret_number = rand::thread_rng().gen_range(1..=100);
+    let mut attempts = 0;
+
+    println!("Please input your guess.");
+
+    loop {
+        let mut guess = String::new();
+
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please type a number!");
+                continue;
+            }
+        };
+
+        attempts += 1;
+        println!("You guessed: {}", guess);
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win in {} attempts!", attempts);
+                break;
+            }
+        }
+
+        if attempts >= 7 {
+            println!("You ran out of attempts! The secret number was {}.", secret_number);
+            break;
+        }
+    }
+
+    println!("\nSimple Text Adventure!");
+    println!("You find yourself in a dark forest.");
+    println!("There are two paths ahead: left and right.");
+
+    loop {
+        println!("Which path do you choose? (left/right/quit)");
+
+        let mut choice = String::new();
+        io::stdin()
+            .read_line(&mut choice)
+            .expect("Failed to read line");
+
+        let choice = choice.trim().to_lowercase();
+
+        match choice.as_str() {
+            "left" => {
+                println!("You venture down the left path.");
+                println!("You encounter a grumpy bear!");
+                println!("Do you try to run or fight? (run/fight)");
+
+                let mut bear_choice = String::new();
+                io::stdin()
+                    .read_line(&mut bear_choice)
+                    .expect("Failed to read line");
+
+                let bear_choice = bear_choice.trim().to_lowercase();
+
+                match bear_choice.as_str() {
+                    "run" => println!("You manage to escape the bear!"),
+                    "fight" => println!("The bear is too strong. Game Over!"),
+                    _ => println!("Invalid action."),
+                }
+                break;
+            }
+            "right" => {
+                println!("You take the right path.");
+                println!("You find a hidden treasure chest!");
+                println!("Congratulations, you found treasure!");
+                break;
+            }
+            "quit" => {
+                println!("Thanks for playing!");
+                break;
+            }
+            _ => println!("Invalid choice."),
+        }
+    }
+
+    println!("\nSimple Number Sum Game!");
+    println!("Enter a series of numbers separated by spaces (or 'done' to finish):");
+
+    let mut total_sum = 0;
+
+    loop {
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
+
+        let input = input.trim();
+
+        if input == "done" {
+            break;
+        }
+
+        let numbers: Vec<&str> = input.split_whitespace().collect();
+
+        for num_str in numbers {
+            match num_str.parse::<i32>() {
+                Ok(num) => total_sum += num,
+                Err(_) => println!("Invalid number: {}", num_str),
+            }
+        }
+        println!("Current sum: {}", total_sum);
+    }
+
+    println!("Final sum: {}", total_sum);
+
+    println!("\nSimple Even/Odd Checker!");
+    println!("Enter a number to check if it's even or odd:");
+
+    let mut num_input = String::new();
+    io::stdin()
+        .read_line(&mut num_input)
+        .expect("Failed to read line");
+
+    match num_input.trim().parse::<i32>() {
+        Ok(num) => {
+            if num % 2 == 0 {
+                println!("{} is even.", num);
+            } else {
+                println!("{} is odd.", num);
+            }
+        }
+        Err(_) => println!("Invalid input. Please enter a number."),
+    }
+use std::io;
+use std::cmp::Ordering;
+use rand::Rng;
+
+fn main() {
+    println!("Guess the number!");
+
+    let secret_number = rand::thread_rng().gen_range(1..=100);
+    let mut attempts = 0;
+
+    println!("Please input your guess.");
+
+    loop {
+        let mut guess = String::new();
+
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please type a number!");
+                continue;
+            }
+        };
+
+        attempts += 1;
+        println!("You guessed: {}", guess);
+
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win in {} attempts!", attempts);
+                break;
+            }
+        }
+
+        if attempts >= 7 {
+            println!("You ran out of attempts! The secret number was {}.", secret_number);
+            break;
+        }
+    }
+
+    println!("\nSimple Text Adventure!");
+    println!("You find yourself in a dark forest.");
+    println!("There are two paths ahead: left and right.");
+
+    loop {
+        println!("Which path do you choose? (left/right/quit)");
+
+        let mut choice = String::new();
+        io::stdin()
+            .read_line(&mut choice)
+            .expect("Failed to read line");
+
+        let choice = choice.trim().to_lowercase();
+
+        match choice.as_str() {
+            "left" => {
+                println!("You venture down the left path.");
+                println!("You encounter a grumpy bear!");
+                println!("Do you try to run or fight? (run/fight)");
+
+                let mut bear_choice = String::new();
+                io::stdin()
+                    .read_line(&mut bear_choice)
+                    .expect("Failed to read line");
+
+                let bear_choice = bear_choice.trim().to_lowercase();
+
+                match bear_choice.as_str() {
+                    "run" => println!("You manage to escape the bear!"),
+                    "fight" => println!("The bear is too strong. Game Over!"),
+                    _ => println!("Invalid action."),
+                }
+                break;
+            }
+            "right" => {
+                println!("You take the right path.");
+                println!("You find a hidden treasure chest!");
+                println!("Congratulations, you found treasure!");
+                break;
+            }
+            "quit" => {
+                println!("Thanks for playing!");
+                break;
+            }
+            _ => println!("Invalid choice."),
+        }
+    }
+
+    println!("\nSimple Number Sum Game!");
+    println!("Enter a series of numbers separated by spaces (or 'done' to finish):");
+
+    let mut total_sum = 0;
+
+    loop {
+        let mut input = String::new();
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
+
+        let input = input.trim();
+
+        if input == "done" {
+            break;
+        }
+
+        let numbers: Vec<&str> = input.split_whitespace().collect();
+
+        for num_str in numbers {
+            match num_str.parse::<i32>() {
+                Ok(num) => total_sum += num,
+                Err(_) => println!("Invalid number: {}", num_str),
+            }
+        }
+        println!("Current sum: {}", total_sum);
+    }
+
+    println!("Final sum: {}", total_sum);
+
+    println!("\nSimple Even/Odd Checker!");
+    println!("Enter a number to check if it's even or odd:");
+
+    let mut num_input = String::new();
+    io::stdin()
+        .read_line(&mut num_input)
+        .expect("Failed to read line");
+
+    match num_input.trim().parse::<i32>() {
+        Ok(num) => {
+            if num % 2 == 0 {
+                println!("{} is even.", num);
+            } else {
+                println!("{} is odd.", num);
+            }
+        }
+        Err(_) => println!("Invalid input. Please enter a number."),
+    }
+}}// main.rs - A simple command-line number guessing game in Rust.
 
 // Import necessary modules for random number generation and input/output.
 use rand::Rng; // For `thread_rng().gen_range()`
