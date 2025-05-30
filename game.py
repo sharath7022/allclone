@@ -1,4 +1,60 @@
-import random # Import the 'random' module for generating random numbers
+import random
+import time
+
+def guess_the_number():
+    secret_number = random.randint(1, 100)
+    attempts = 0
+    print("Welcome to Guess the Number!")
+    print("I'm thinking of a number between 1 and 100.")
+
+    while True:
+        try:
+            guess = int(input("Take a guess: "))
+            attempts += 1
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+            continue
+
+        if guess < secret_number:
+            print("Too low!")
+        elif guess > secret_number:
+            print("Too high!")
+        else:
+            print(f"Congratulations! You guessed the number in {attempts} attempts!")
+            break
+
+        if attempts >= 7:
+            print(f"You've run out of attempts. The number was {secret_number}.")
+            break
+
+if __name__ == "__main__":
+    guess_the_number()
+
+def simple_quiz():
+    score = 0
+    questions = {
+        "What is 2 + 2? ": "4",
+        "What color is the sky? ": "blue",
+        "What is the capital of France? ": "paris"
+    }
+    print("\nSimple Quiz Game!")
+    for question, answer in questions.items():
+        user_answer = input(question).lower()
+        if user_answer == answer:
+            print("Correct!")
+            score += 1
+        else:
+            print(f"Incorrect. The answer was {answer}.")
+    print(f"Your final score is: {score}/{len(questions)}")
+
+    play_again = input("Play again? (yes/no): ").lower()
+    if play_again == "yes":
+        simple_quiz()
+
+if __name__ == "__main__":
+    # Uncomment the game you want to play
+    # guess_the_number()
+    simple_quiz()import random # Import the 'random' module for generating random numbers
 import sys    # Import 'sys' for exiting the program gracefully
 
 def play_guessing_game():
