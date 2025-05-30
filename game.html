@@ -1,4 +1,61 @@
 <!DOCTYPE html>
+<html>
+<head>
+<title>Simple Click Game</title>
+<style>
+  body { font-family: sans-serif; text-align: center; }
+  #gameArea {
+    width: 200px; height: 200px; background-color: lightblue;
+    margin: 20px auto; border: 1px solid blue; line-height: 200px;
+    font-size: 2em; cursor: pointer;
+  }
+  #score { font-size: 1.5em; margin-top: 10px; }
+  button { padding: 10px 20px; font-size: 1em; cursor: pointer; }
+</style>
+</head>
+<body>
+
+  <h1>Click the Box!</h1>
+
+  <div id="gameArea">Click Me!</div>
+  <div id="score">Score: 0</div>
+  <button onclick="resetGame()">Reset Game</button>
+
+  <script>
+    let score = 0;
+    const gameArea = document.getElementById('gameArea');
+    const scoreDisplay = document.getElementById('score');
+
+    gameArea.addEventListener('click', function() {
+      score++;
+      scoreDisplay.textContent = 'Score: ' + score;
+      changeBackgroundColor();
+      changeText();
+    });
+
+    function changeBackgroundColor() {
+      const r = Math.floor(Math.random() * 256);
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
+      gameArea.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function changeText() {
+      const texts = ["Click!", "Again!", "Nice!", "Keep Going!", "Almost...", "Wow!"];
+      const randomIndex = Math.floor(Math.random() * texts.length);
+      gameArea.textContent = texts[randomIndex];
+    }
+
+    function resetGame() {
+      score = 0;
+      scoreDisplay.textContent = 'Score: 0';
+      gameArea.style.backgroundColor = 'lightblue';
+      gameArea.textContent = 'Click Me!';
+    }
+  </script>
+
+</body>
+</html><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
